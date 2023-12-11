@@ -4,26 +4,16 @@ import lms.Main;
 import lms.database.Database;
 import lms.service.esceptions.MyException;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Group {
     private long id;
     private String name;
     private String description;
-    private Student[] students = new Student[0];
-    private Lesson[] lessons = new Lesson[0];
+    private LinkedHashSet<Student> students = new LinkedHashSet<>();
+    private LinkedHashSet<Lesson> lessons = new LinkedHashSet<>();
 
     public Group() {
-    }
-
-    public Group(long id, String name, String description, Student[] students, Lesson[] lessons) {
-        this.id = id;
-        this.name = unikName(name);
-        this.description = description;
-        this.students = students;
-        this.lessons = lessons;
     }
 
     public long getId() {
@@ -50,19 +40,19 @@ public class Group {
         this.description = description;
     }
 
-    public Student[] getStudents() {
+    public LinkedHashSet<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(Student[] students) {
+    public void setStudents(LinkedHashSet<Student> students) {
         this.students = students;
     }
 
-    public Lesson[] getLessons() {
+    public LinkedHashSet<Lesson> getLessons() {
         return lessons;
     }
 
-    public void setLessons(Lesson[] lessons) {
+    public void setLessons(LinkedHashSet lessons) {
         this.lessons = lessons;
     }
 
@@ -87,12 +77,25 @@ public class Group {
 
     @Override
     public String toString() {
-        return "\nGroup{ " +
+        return STR. "\nGroup{ " +
                 "id: " + id +
                 "     name: " + name +
                 "     description: " + description +
-                "\nstudents: " + Arrays.toString(students) +
-                "\nlessons: " + Arrays.toString(lessons) +
+                "\nstudents: " + students +
+                "\nlessons: " + lessons +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return Objects.equals(name, group.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

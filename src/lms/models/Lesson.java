@@ -41,7 +41,7 @@ public class Lesson {
 
     @Override
     public String toString() {
-        return "\nLesson{" +
+        return STR."\nLesson{" +
                 "id: " + id+
                 "     name: " + name +
                 "     description='" + description +

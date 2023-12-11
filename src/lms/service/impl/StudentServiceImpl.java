@@ -7,6 +7,7 @@ import lms.models.Student;
 import lms.service.StudentService;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -33,9 +34,9 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void updateStudent(long id) {
         Scanner scanner = new Scanner(System.in);
-        for (int i = 0; i < Database.groups.length; i++) {
-            for (int k = 0; k < Database.groups[i].getStudents().length; k++) {
-                if (Objects.equals(Database.groups[i].getStudents()[k].getId(), id)) {
+        for (Group group : Database.groups) {
+            for (Student student : group.getStudents()) {
+                if (student.getId() == id) {
                     outloop:
                     while (true) {
                         System.out.println(STR."""
@@ -47,17 +48,16 @@ public class StudentServiceImpl implements StudentService {
                         switch (scanner.nextLine()) {
                             case "1" -> {
                                 System.out.print("Студенттин жаңы атын киргизиңиз: ");
-                                Student student = Database.groups[i].getStudents()[k];
                                 student.setName(scanner.nextLine());
                                 System.out.println("Ийгиликтүү жаңыланды ");
                             }
-                            case "2" ->{
+                            case "2" -> {
                                 System.out.print("Жаңы фамилиясын киргизиңиз: ");
-                                Database.groups[i].getStudents()[k].setLastName(Main.chekScanner(scanner.nextLine()));
+                                student.setLastName(Main.chekScanner(scanner.nextLine()));
                                 System.out.println("Ийгиликтүү жаңыланды ");
                             }
                             case "3" -> {
-                                System.out.println("Жаңылоо аяктады"+ Database.groups[i].getStudents()[k]);
+                                System.out.println("Жаңылоо аяктады" + student);
                                 break outloop;
                             }
                             default -> System.out.println("туура эмес тандоо");
@@ -70,43 +70,32 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void findStudentByFirstName(String firstname) {
-        for (int i = 0; i < Database.groups.length; i++) {
-            Student[] students = Database.groups[i].getStudents();
-            for (Student student : students) {
+    public Student findStudentByFirstName(String firstname) {
+        for (Group group : Database.groups) {
+            for (Student student : group.getStudents()) {
                 if (student.getName().equals(firstname)) {
-                    System.out.println(student);
+                    return student;
                 }
             }
         }
+        return null;
     }
 
     @Override
-    public Student[] getAllStudentsByGroupName(Group group) {
+    public LinkedHashSet<Student> getAllStudentsByGroupName(Group group) {
         return group.getStudents();
     }
 
     @Override
-    public void deleteStudentByEmail(String email) {
-        boolean have = false;
-        for (int i = 0; i < Database.groups.length; i++) {
-            Student[] students = Database.groups[i].getStudents();
-            for (int j = 0; j < students.length; j++) {
-                if (students[j].getEmail().equals(email)) {
-                    for (int k = j; k < students.length - 1; k++) {
-                        students[k] = students[k + 1];
-                    }
-                    have = true;
+    public boolean deleteStudentByEmail(String email) {
+        for (Group group : Database.groups) {
+            for (Student student : group.getStudents()) {
+                if (student.getEmail().equals(email)) {
+                    return group.getStudents().remove(student);
                 }
             }
-            if (have) {
-                students = Arrays.copyOf(students, students.length - 1);
-                Database.groups[i].setStudents(students);
-                System.out.println("Ийгиликтүү өчүрүлдү");
-            }
+
         }
-        if (!have) {
-            System.out.println(email + " почтасы табылган жок");
-        }
+        return false;
     }
 }

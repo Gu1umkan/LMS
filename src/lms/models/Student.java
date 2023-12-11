@@ -97,9 +97,8 @@ public class Student {
     }
 
     private boolean isEmailUnique(String email) {
-        for (int i = 0; i < Database.groups.length; i++) {
-            Student[] students = Database.groups[i].getStudents();
-            for (Student student : students) {
+        for (Group group : Database.groups) {
+            for (Student student :group.getStudents()) {
                 if (Objects.equals(student.getEmail(), email)) {
                     return false;
                 }
@@ -135,13 +134,26 @@ public class Student {
 
     @Override
     public String toString() {
-        return "\nStudent{ "+
+        return STR."\n"+
                 " id: " + id +
                 "     name: " + name +
                 "     lastName: " + lastName +
                 "     email: " + email +
                 "     password: " + password +
-                "     gender: " + gender +
-                '}';
+                "     gender: " + gender
+                ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(email, student.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 }

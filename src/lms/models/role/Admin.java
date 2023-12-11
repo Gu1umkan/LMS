@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Admin {
-    private String firstName = "Peaksoft";
+    private final String firstName = "Peaksoft";
     private String lastName = "House";
     private String email = "peaksoft@gmail.com";
     private String password = "peaksoft2023";

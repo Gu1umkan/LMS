@@ -4,6 +4,8 @@ import lms.models.Group;
 import lms.models.Lesson;
 import lms.models.Student;
 
+import java.util.LinkedHashSet;
+
 public interface GroupService {
 
    Group newGroup(Group group,long id);
@@ -11,11 +13,10 @@ public interface GroupService {
    void addNewGroup(Group newGroup) ;
    Group getGroupByName(String name);
    void updateGroupName(String  name);
-   Group[] getAllGroups();
+   LinkedHashSet<Group> getAllGroups();
    void addNewStudentToGroup(Student student,Group group);
    void  addNewLessonToGroup(Lesson lesson,Group group);
-   void  deleteGroupByName(String name);
-  // Group searchGroup(String name);
+   boolean  deleteGroupByName(String name);
 
 
 }
