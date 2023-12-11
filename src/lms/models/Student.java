@@ -13,12 +13,12 @@ public class Student {
     private String email;
     private String password;
     private Gender gender;
-    private  long id;
+    private long id;
 
     public Student() {
     }
 
-    public Student(String name, String lastName, String email, String password, Gender gender,long id) {
+    public Student(String name, String lastName, String email, String password, Gender gender, long id) {
         this.name = name;
         this.lastName = lastName;
         this.email = chekEmail(email);
@@ -98,7 +98,7 @@ public class Student {
 
     private boolean isEmailUnique(String email) {
         for (Group group : Database.groups) {
-            for (Student student :group.getStudents()) {
+            for (Student student : group.getStudents()) {
                 if (Objects.equals(student.getEmail(), email)) {
                     return false;
                 }
@@ -106,6 +106,7 @@ public class Student {
         }
         return true;
     }
+
     private Gender chekGender(String gender) {
         while (true) {
             if (gender.equals("male")) {
@@ -119,12 +120,12 @@ public class Student {
             }
         }
     }
+
     public static String chekPassword(String password) {
         while (true) {
-            if (password.length() > 3){
+            if (password.length() > 3) {
                 return password;
-            }
-            else {
+            } else {
                 System.out.println("Пароль 4төн көп 12 ден аз символду камтыш керек❗️");
                 password = new Scanner(System.in).nextLine();
             }
@@ -134,7 +135,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return STR."\n"+
+        return STR."\n" +
                 " id: " + id +
                 "     name: " + name +
                 "     lastName: " + lastName +
@@ -149,11 +150,11 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(email, student.email);
+        return id == student.id && Objects.equals(name, student.name) && Objects.equals(lastName, student.lastName) && Objects.equals(email, student.email) && Objects.equals(password, student.password) && gender == student.gender;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email);
+        return Objects.hash(name, lastName, email, password, gender, id);
     }
 }

@@ -91,11 +91,11 @@ public class Group {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
-        return Objects.equals(name, group.name);
+        return id == group.id && Objects.equals(name, group.name) && Objects.equals(description, group.description) && Objects.equals(students, group.students) && Objects.equals(lessons, group.lessons);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(id, name, description, students, lessons);
     }
 }
